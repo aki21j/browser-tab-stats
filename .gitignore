@@ -1,0 +1,31 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+.cache/
+
+# Build artifacts (if any)
+dist/
+build/
+
+# Node modules (if we add npm later)
+node_modules/
+
+# Package files
+*.zip
+*.crx
+*.pem
+
