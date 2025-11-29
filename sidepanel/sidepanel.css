@@ -22,15 +22,16 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 1px solid #e8eaed;
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: #1a73e8;
+  letter-spacing: -0.3px;
 }
 
 .header-actions {
@@ -39,48 +40,78 @@ h1 {
 }
 
 .icon-btn {
-  background: #fff;
-  border: 1px solid #dadce0;
-  border-radius: 4px;
-  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 6px;
   cursor: pointer;
-  font-size: 18px;
-  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  color: #5f6368;
 }
 
 .icon-btn:hover {
-  background: #f8f9fa;
-  border-color: #1a73e8;
+  background: #f1f3f4;
+  color: #202124;
+}
+
+.icon-btn:active {
+  background: #e8eaed;
+}
+
+.icon-btn svg {
+  display: block;
 }
 
 /* Summary Section */
 .summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .stat-card {
-  background: #fff;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 16px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  gap: 6px;
+  transition: all 0.15s ease;
+  cursor: default;
+  min-width: 0;
 }
 
-.stat-value {
-  font-size: 32px;
-  font-weight: 700;
-  color: #1a73e8;
-  margin-bottom: 4px;
+.stat-card:hover {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 1px #1a73e8;
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 10px;
   color: #5f6368;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 600;
+  color: #202124;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Recommendations Section */
