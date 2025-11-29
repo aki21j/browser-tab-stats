@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Stats Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <h1>Tab Statistics Dashboard</h1>
+      <div class="header-actions">
+        <button id="export-btn" class="btn btn-secondary">Export Data</button>
+        <button id="refresh-btn" class="btn btn-primary">Refresh</button>
+      </div>
+    </header>
+
+    <nav class="tabs-nav">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="tabs-list">Tab List</button>
+      <button class="tab-btn" data-tab="domains">Domains</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+    </nav>
+
+    <main class="dashboard-content">
+      <!-- Overview Tab -->
+      <div id="overview-tab" class="tab-content active">
+        <div class="stats-grid">
+          <div class="stat-card large">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value" id="overview-total-tabs">0</div>
+            <div class="stat-label">Total Open Tabs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🪟</div>
+            <div class="stat-value" id="overview-windows">0</div>
+            <div class="stat-label">Windows</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-value" id="overview-avg-age">0h</div>
+            <div class="stat-label">Avg Tab Age</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-value" id="overview-avg-activations">0</div>
+            <div class="stat-label">Avg Activations</div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>Tabs by Domain (Top 10)</h3>
+            <canvas id="domain-chart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Tab Age Distribution</h3>
+            <canvas id="age-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="recommendations-panel">
+          <h2>Smart Recommendations</h2>
+          <div id="overview-recommendations"></div>
+        </div>
+      </div>
+
+      <!-- Tabs List Tab -->
+      <div id="tabs-list-tab" class="tab-content">
+        <div class="controls-bar">
+          <input type="text" id="search-input" class="search-input" placeholder="Search tabs by title or URL...">
+          <select id="filter-select" class="filter-select">
+            <option value="all">All Tabs</option>
+            <option value="inactive">Inactive (7d+)</option>
+            <option value="rarely-used">Rarely Used</option>
+            <option value="duplicates">Duplicates</option>
+          </select>
+          <select id="tabs-sort-select" class="filter-select">
+            <option value="age-desc">Oldest First</option>
+            <option value="age-asc">Newest First</option>
+            <option value="activations-desc">Most Active</option>
+            <option value="activations-asc">Least Active</option>
+            <option value="title">By Title</option>
+          </select>
+        </div>
+
+        <div class="bulk-actions">
+          <button id="close-inactive-btn" class="btn btn-danger">Close Inactive Tabs</button>
+          <button id="close-duplicates-btn" class="btn btn-warning">Close Duplicates</button>
+          <button id="close-selected-btn" class="btn btn-secondary" disabled>Close Selected (0)</button>
+        </div>
+
+        <div id="tabs-table-container"></div>
+      </div>
+
+      <!-- Domains Tab -->
+      <div id="domains-tab" class="tab-content">
+        <h2>Domain Analysis</h2>
+        <div id="domains-list"></div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settings-tab" class="tab-content">
+        <h2>Settings</h2>
+        <div class="settings-panel">
+          <div class="setting-group">
+            <label>
+              <input type="checkbox" id="tracking-enabled">
+              Enable Tab Tracking
+            </label>
+            <p class="setting-description">Track tab statistics automatically</p>
+          </div>
+
+          <div class="setting-group">
+            <label for="data-retention">Data Retention Period (days)</label>
+            <input type="number" id="data-retention" min="1" max="365" value="30">
+            <p class="setting-description">How long to keep data for closed tabs</p>
+          </div>
+
+          <div class="setting-group">
+            <label for="inactivity-threshold">Inactivity Threshold (days)</label>
+            <input type="number" id="inactivity-threshold" min="1" max="90" value="7">
+            <p class="setting-description">Mark tabs as inactive after this many days</p>
+          </div>
+
+          <div class="setting-group">
+            <label>
+              <input type="checkbox" id="show-notifications">
+              Show Notifications
+            </label>
+            <p class="setting-description">Get notified about tab statistics</p>
+          </div>
+
+          <div class="setting-actions">
+            <button id="save-settings-btn" class="btn btn-primary">Save Settings</button>
+            <button id="clear-data-btn" class="btn btn-danger">Clear All Data</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../lib/chart.min.js"></script>
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
+

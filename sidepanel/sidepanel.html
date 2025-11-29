@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Stats</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tab Stats</h1>
+      <div class="header-actions">
+        <button id="refresh-btn" class="icon-btn" title="Refresh stats">
+          <span>↻</span>
+        </button>
+        <button id="dashboard-btn" class="icon-btn" title="Open full dashboard">
+          <span>⇱</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="summary">
+      <div class="stat-card">
+        <div class="stat-value" id="total-tabs">0</div>
+        <div class="stat-label">Total Tabs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="total-windows">0</div>
+        <div class="stat-label">Windows</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="inactive-count">0</div>
+        <div class="stat-label">Inactive (7d+)</div>
+      </div>
+    </section>
+
+    <section class="recommendations" id="recommendations-section" style="display: none;">
+      <h2>Recommendations</h2>
+      <div id="recommendations-list"></div>
+    </section>
+
+    <section class="tabs-list">
+      <div class="section-header">
+        <h2>Tabs</h2>
+        <select id="sort-select">
+          <option value="age-desc">Oldest First</option>
+          <option value="age-asc">Newest First</option>
+          <option value="activations-desc">Most Active</option>
+          <option value="activations-asc">Least Active</option>
+          <option value="inactive">Inactive First</option>
+        </select>
+      </div>
+      
+      <div id="tabs-container" class="tabs-container">
+        <div class="loading">Loading tabs...</div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>
+
