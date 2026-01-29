@@ -95,16 +95,15 @@ body {
 
 /* Navigation Tabs - Modern Pill Style */
 .tabs-nav {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.98);
   padding: 16px 32px;
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid #e8eaed;
+  border-bottom: 1px solid #E5E7EB;
   position: sticky;
   top: 0;
   z-index: 10;
-  backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
 }
 
 .tab-btn {
@@ -114,7 +113,7 @@ body {
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: #5f6368;
+  color: #6B7280;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -128,7 +127,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 8px;
-  background: #f3f4f6;
+  background: #F5F5F7;
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -138,7 +137,7 @@ body {
 }
 
 .tab-btn:hover {
-  color: #202124;
+  color: #1F2937;
 }
 
 .tab-btn.active {
@@ -147,7 +146,7 @@ body {
 }
 
 .tab-btn.active::before {
-  background: #F3F0FF;
+  background: #F5F3FF;
   opacity: 1;
 }
 
