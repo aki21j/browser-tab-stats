@@ -324,7 +324,7 @@ body {
 
 .recommendation-card {
   padding: 14px 16px;
-  background: #f8f9fa;
+  background: #F5F5F7;
   border-radius: 8px;
   margin-bottom: 10px;
   border-left: 3px solid #8B5CF6;
@@ -335,35 +335,36 @@ body {
 }
 
 .recommendation-card:hover {
-  background: #f3f4f6;
+  background: #ECECEF;
   transform: translateX(4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .recommendation-card.priority-high {
-  border-left-color: #ea4335;
-  background: linear-gradient(90deg, #fef7f7 0%, #f8f9fa 100%);
+  border-left-color: #DC2626;
+  background: #FEF2F2;
 }
 
 .recommendation-card.priority-medium {
-  border-left-color: #fbbc04;
-  background: linear-gradient(90deg, #fefbf5 0%, #f8f9fa 100%);
+  border-left-color: #F59E0B;
+  background: #FFFBEB;
 }
 
 .recommendation-card.priority-low {
-  border-left-color: #34a853;
-  background: linear-gradient(90deg, #f7fef7 0%, #f8f9fa 100%);
+  border-left-color: #10B981;
+  background: #F0FDF4;
 }
 
 .recommendation-info h4 {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 4px;
-  color: #202124;
+  color: #1F2937;
 }
 
 .recommendation-info p {
   font-size: 13px;
-  color: #5f6368;
+  color: #6B7280;
   line-height: 1.5;
 }
 
@@ -380,41 +381,42 @@ body {
   flex: 1;
   min-width: 300px;
   padding: 10px 16px 10px 40px;
-  border: 1px solid #e8eaed;
+  border: 1px solid #E5E7EB;
   border-radius: 10px;
   font-size: 14px;
   transition: all 0.2s;
-  background: #f8f9fa url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%235f6368" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 12px center;
+  background: #FFFFFF url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%236B7280" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 12px center;
+  color: #1F2937;
 }
 
 .search-input:focus {
   outline: none;
   border-color: #8B5CF6;
-  background-color: #fff;
+  background-color: #FAFAFA;
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 .search-input::placeholder {
-  color: #9ca3af;
+  color: #9CA3AF;
 }
 
 .filter-select {
   padding: 10px 36px 10px 16px;
-  border: 1px solid #e8eaed;
+  border: 1px solid #E5E7EB;
   border-radius: 10px;
   font-size: 14px;
-  background: #fff url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%235f6368" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>') no-repeat right 12px center;
+  background: #FFFFFF url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%236B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>') no-repeat right 12px center;
   cursor: pointer;
   transition: all 0.2s;
   appearance: none;
   font-weight: 500;
-  color: #202124;
+  color: #1F2937;
   min-width: 150px;
 }
 
 .filter-select:hover {
-  border-color: #d1d5db;
-  background-color: #f8f9fa;
+  border-color: #D1D5DB;
+  background-color: #FAFAFA;
 }
 
 .filter-select:focus {
