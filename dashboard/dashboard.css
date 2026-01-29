@@ -176,20 +176,46 @@ body {
   display: block;
 }
 
-/* Stats Grid */
+/* Stats Grid - Modern Card Design */
 .stats-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
   margin-bottom: 32px;
 }
 
 .stat-card {
   background: #fff;
   border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  padding: 20px;
+  border: 1px solid #e8eaed;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #8B5CF6, #A78BFA);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: #8B5CF6;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-card:hover::before {
+  transform: scaleX(1);
 }
 
 .stat-card.large {
@@ -197,30 +223,41 @@ body {
 }
 
 .stat-icon {
-  font-size: 40px;
+  font-size: 32px;
   margin-bottom: 12px;
+  filter: grayscale(0.3);
+  transition: filter 0.2s;
+}
+
+.stat-card:hover .stat-icon {
+  filter: grayscale(0);
 }
 
 .stat-value {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
+  color: #202124;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.2s;
+}
+
+.stat-card:hover .stat-value {
   color: #8B5CF6;
-  margin-bottom: 8px;
 }
 
 .stat-label {
   font-size: 13px;
   color: #5f6368;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
-/* Charts Grid */
+/* Charts Grid - Modern Design */
 .charts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 16px;
   margin-bottom: 32px;
 }
 
@@ -228,71 +265,103 @@ body {
   background: #fff;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8eaed;
+  transition: all 0.2s;
+}
+
+.chart-card:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .chart-card h3 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #333;
+  color: #202124;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-card h3::before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: linear-gradient(180deg, #8B5CF6, #A78BFA);
+  border-radius: 2px;
 }
 
 .chart-card canvas {
-  max-height: 300px;
+  max-height: 280px;
 }
 
-/* Recommendations Panel */
+/* Recommendations Panel - Modern Design */
 .recommendations-panel {
   background: #fff;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8eaed;
 }
 
 .recommendations-panel h2 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #333;
+  color: #202124;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recommendations-panel h2::before {
+  content: '💡';
+  font-size: 20px;
 }
 
 .recommendation-card {
-  padding: 16px;
+  padding: 14px 16px;
   background: #f8f9fa;
   border-radius: 8px;
-  margin-bottom: 12px;
-  border-left: 4px solid #8B5CF6;
+  margin-bottom: 10px;
+  border-left: 3px solid #8B5CF6;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.2s;
+}
+
+.recommendation-card:hover {
+  background: #f3f4f6;
+  transform: translateX(4px);
 }
 
 .recommendation-card.priority-high {
   border-left-color: #ea4335;
-  background: #fef7f7;
+  background: linear-gradient(90deg, #fef7f7 0%, #f8f9fa 100%);
 }
 
 .recommendation-card.priority-medium {
   border-left-color: #fbbc04;
-  background: #fefbf5;
+  background: linear-gradient(90deg, #fefbf5 0%, #f8f9fa 100%);
 }
 
 .recommendation-card.priority-low {
   border-left-color: #34a853;
-  background: #f7fef7;
+  background: linear-gradient(90deg, #f7fef7 0%, #f8f9fa 100%);
 }
 
 .recommendation-info h4 {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 4px;
-  color: #333;
+  color: #202124;
 }
 
 .recommendation-info p {
   font-size: 13px;
   color: #5f6368;
+  line-height: 1.5;
 }
 
 /* Controls Bar */
