@@ -92,35 +92,75 @@ body {
   cursor: not-allowed;
 }
 
-/* Navigation Tabs */
+/* Navigation Tabs - Modern Pill Style */
 .tabs-nav {
   background: #fff;
-  padding: 0 32px;
+  padding: 16px 32px;
   display: flex;
-  gap: 4px;
-  border-bottom: 1px solid #e0e0e0;
+  gap: 8px;
+  border-bottom: 1px solid #e8eaed;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .tab-btn {
-  padding: 16px 24px;
-  background: none;
+  padding: 10px 20px;
+  background: transparent;
   border: none;
-  border-bottom: 3px solid transparent;
-  font-size: 15px;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 500;
   color: #5f6368;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: #f3f4f6;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tab-btn:hover::before {
+  opacity: 1;
 }
 
 .tab-btn:hover {
-  color: #8B5CF6;
-  background: #f8f9fa;
+  color: #202124;
 }
 
 .tab-btn.active {
   color: #8B5CF6;
-  border-bottom-color: #8B5CF6;
+  font-weight: 600;
+}
+
+.tab-btn.active::before {
+  background: #F3F0FF;
+  opacity: 1;
+}
+
+/* Tab icons */
+.tab-btn svg {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-btn span {
+  position: relative;
+  z-index: 1;
 }
 
 /* Content Area */
