@@ -789,7 +789,7 @@ body {
   font-size: 14px;
 }
 
-/* Responsive Design */
+/* Responsive Design - Enhanced */
 @media (max-width: 1200px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -798,23 +798,134 @@ body {
   .charts-grid {
     grid-template-columns: 1fr;
   }
+  
+  #domains-list {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
+  .dashboard-header {
+    padding: 20px 16px;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 22px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .header-actions .btn {
+    width: 100%;
+  }
+  
+  .tabs-nav {
+    padding: 12px 16px;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tab-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  
+  .tab-btn svg {
+    display: none;
+  }
+  
   .dashboard-content {
     padding: 16px;
   }
   
   .stats-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .stat-card {
+    padding: 16px;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+  }
+  
+  .charts-grid {
+    gap: 12px;
+  }
+  
+  .chart-card {
+    padding: 20px 16px;
   }
   
   .controls-bar {
     flex-direction: column;
   }
   
+  .search-input {
+    min-width: 100%;
+  }
+  
+  .filter-select {
+    width: 100%;
+  }
+  
   .bulk-actions {
-    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 12px;
+  }
+  
+  .bulk-actions .btn {
+    width: 100%;
+  }
+  
+  #domains-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .settings-panel {
+    padding: 20px 16px;
+  }
+  
+  .setting-group input[type="number"] {
+    width: 100%;
+  }
+  
+  .setting-actions {
+    flex-direction: column;
+  }
+  
+  .setting-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header h1 {
+    font-size: 20px;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+  }
+  
+  .tabs-table {
+    font-size: 13px;
+  }
+  
+  .tabs-table th,
+  .tabs-table td {
+    padding: 10px 12px;
   }
 }
 
