@@ -6,7 +6,7 @@
   --bg-hover: #F9F9F9;
   
   /* Borders */
-  --border: #E5E5E5;
+  --border: #ECECEC;
   --border-focus: #111111;
   
   /* Text */
@@ -120,7 +120,7 @@ h1 {
   background: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: var(--space-md);
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -154,7 +154,7 @@ h1 {
 }
 
 .stat-value {
-  font-size: 28px;
+  font-size: 40px;
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
   line-height: 1;
@@ -179,9 +179,10 @@ h1 {
 
 .recommendation-item {
   padding: var(--space-md);
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
   border-radius: var(--radius);
   margin-bottom: var(--space-sm);
+  border: 1px solid var(--border);
   border-left: 2px solid var(--accent);
 }
 
@@ -274,10 +275,11 @@ h1 {
 .tab-item {
   display: flex;
   align-items: center;
-  padding: var(--space-md);
+  padding: var(--space-md) var(--space-md);
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   transition: background var(--transition);
+  min-height: 64px;
 }
 
 .tab-item:hover {
@@ -307,8 +309,9 @@ h1 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 6px;
   font-size: var(--font-size-base);
+  line-height: 20px;
   transition: color var(--transition);
 }
 
@@ -321,6 +324,7 @@ h1 {
   color: var(--text-secondary);
   display: flex;
   gap: var(--space-md);
+  line-height: 18px;
 }
 
 .tab-actions {
