@@ -3,6 +3,7 @@
 import { calculateStats, getInactiveTabs, getTabsByAge, getTabsByActivations, getDomainStats, generateRecommendations } from '../shared/stats.js';
 import { getAllData, updateSettings, clearAllStats, exportData } from '../shared/storage.js';
 import { formatDuration, formatTimestamp, getFaviconUrl, truncate, groupBy, debounce } from '../shared/utils.js';
+import { keyboard } from '../shared/keyboard.js';
 
 let currentTabs = [];
 let tabStats = {};
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   setupEventListeners();
   setupTabNavigation();
+  setupKeyboardShortcuts();
   displayOverview();
   
   // Check for filter parameter in URL
@@ -43,6 +45,44 @@ async function loadData() {
   settings = data.settings;
   
   currentTabs = await chrome.tabs.query({});
+}
+
+// Setup keyboard shortcuts
+function setupKeyboardShortcuts() {
+  // Refresh
+  keyboard.register('cmd+r', () => {
+    document.getElementById('refresh-btn').click();
+  }, 'Refresh statistics');
+
+  // Export
+  keyboard.register('cmd+e', () => {
+    document.getElementById('export-btn').click();
+  }, 'Export data');
+
+  // Tab navigation
+  keyboard.register('cmd+1', () => switchTab('overview'), 'Go to Overview');
+  keyboard.register('cmd+2', () => switchTab('tabs-list'), 'Go to Tab List');
+  keyboard.register('cmd+3', () => switchTab('domains'), 'Go to Domains');
+  keyboard.register('cmd+4', () => switchTab('settings'), 'Go to Settings');
+
+  // Search focus
+  keyboard.register('cmd+k', () => {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      switchTab('tabs-list');
+      setTimeout(() => searchInput.focus(), 100);
+    }
+  }, 'Focus search');
+
+  // Help menu
+  keyboard.register('cmd+/', () => showKeyboardHelp(), 'Show keyboard shortcuts');
+}
+
+// Show keyboard shortcuts help
+function showKeyboardHelp() {
+  const shortcuts = keyboard.getAll();
+  const helpText = shortcuts.map(s => `${s.key}: ${s.description}`).join('\n');
+  alert(`Keyboard Shortcuts:\n\n${helpText}`);
 }
 
 // Setup event listeners

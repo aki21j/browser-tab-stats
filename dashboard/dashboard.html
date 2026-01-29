@@ -11,16 +11,16 @@
     <header class="dashboard-header">
       <h1>Tab Statistics Dashboard</h1>
       <div class="header-actions">
-        <button id="export-btn" class="btn btn-secondary">Export Data</button>
-        <button id="refresh-btn" class="btn btn-primary">Refresh</button>
+        <button id="export-btn" class="btn btn-secondary" title="Export statistics as JSON (⌘E)" aria-label="Export data">Export Data</button>
+        <button id="refresh-btn" class="btn btn-primary" title="Refresh all statistics (⌘R)" aria-label="Refresh">Refresh</button>
       </div>
     </header>
 
-    <nav class="tabs-nav">
-      <button class="tab-btn active" data-tab="overview">Overview</button>
-      <button class="tab-btn" data-tab="tabs-list">Tab List</button>
-      <button class="tab-btn" data-tab="domains">Domains</button>
-      <button class="tab-btn" data-tab="settings">Settings</button>
+    <nav class="tabs-nav" role="tablist" aria-label="Dashboard navigation">
+      <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true" title="Overview and statistics (⌘1)">Overview</button>
+      <button class="tab-btn" data-tab="tabs-list" role="tab" aria-selected="false" title="Detailed tab list (⌘2)">Tab List</button>
+      <button class="tab-btn" data-tab="domains" role="tab" aria-selected="false" title="Domain analysis (⌘3)">Domains</button>
+      <button class="tab-btn" data-tab="settings" role="tab" aria-selected="false" title="Extension settings (⌘4)">Settings</button>
     </nav>
 
     <main class="dashboard-content">

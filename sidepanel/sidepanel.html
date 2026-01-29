@@ -11,12 +11,12 @@
     <header>
       <h1>Tab Stats</h1>
       <div class="header-actions">
-        <button id="refresh-btn" class="icon-btn" title="Refresh">
+        <button id="refresh-btn" class="icon-btn" title="Refresh stats (⌘R)" aria-label="Refresh statistics">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
           </svg>
         </button>
-        <button id="dashboard-btn" class="icon-btn" title="Open Dashboard">
+        <button id="dashboard-btn" class="icon-btn" title="Open full dashboard (⌘D)" aria-label="Open detailed dashboard in new tab">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
             <polyline points="15 3 21 3 21 9"/>
@@ -27,15 +27,15 @@
     </header>
 
     <section class="summary">
-      <div class="stat-card">
+      <div class="stat-card" title="Total number of open tabs across all windows">
         <div class="stat-label">Total Tabs</div>
         <div class="stat-value" id="total-tabs">0</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" title="Number of browser windows currently open">
         <div class="stat-label">Windows</div>
         <div class="stat-value" id="total-windows">0</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" title="Tabs not accessed in 7+ days">
         <div class="stat-label">Inactive</div>
         <div class="stat-value" id="inactive-count">0</div>
       </div>
@@ -49,7 +49,7 @@
     <section class="tabs-list">
       <div class="section-header">
         <h2>Tabs</h2>
-        <select id="sort-select">
+        <select id="sort-select" title="Sort tabs by different criteria" aria-label="Sort tabs">
           <option value="age-desc">Oldest First</option>
           <option value="age-asc">Newest First</option>
           <option value="activations-desc">Most Active</option>
