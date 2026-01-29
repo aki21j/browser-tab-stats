@@ -263,23 +263,24 @@ body {
 }
 
 .chart-card {
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 24px;
-  border: 1px solid #e8eaed;
+  border: 1px solid #E5E7EB;
   transition: all 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .chart-card:hover {
-  border-color: #d1d5db;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: #D1D5DB;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .chart-card h3 {
   font-size: 15px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #202124;
+  color: #1F2937;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -299,17 +300,18 @@ body {
 
 /* Recommendations Panel - Modern Design */
 .recommendations-panel {
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 24px;
-  border: 1px solid #e8eaed;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .recommendations-panel h2 {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #202124;
+  color: #1F2937;
   display: flex;
   align-items: center;
   gap: 8px;
