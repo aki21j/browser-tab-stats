@@ -90,17 +90,17 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition);
+  transition: all var(--transition);
   color: var(--text-secondary);
 }
 
 .icon-btn:hover {
-  background: var(--bg-hover);
-  color: var(--text-primary);
+  background: var(--accent);
+  color: var(--bg-primary);
 }
 
 .icon-btn:active {
-  background: var(--bg-secondary);
+  background: var(--accent-hover);
 }
 
 .icon-btn svg {
@@ -126,13 +126,18 @@ h1 {
   align-items: center;
   text-align: center;
   gap: var(--space-sm);
-  transition: background var(--transition);
+  transition: all var(--transition);
   cursor: default;
   min-width: 0;
 }
 
 .stat-card:hover {
   background: var(--bg-hover);
+  border-color: var(--accent);
+}
+
+.stat-card:hover .stat-value {
+  color: var(--accent);
 }
 
 .stat-label {
@@ -169,7 +174,7 @@ h1 {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   margin-bottom: var(--space-md);
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 .recommendation-item {
@@ -231,7 +236,7 @@ h1 {
 .section-header h2 {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 #sort-select {
@@ -247,12 +252,12 @@ h1 {
 }
 
 #sort-select:hover {
-  border-color: var(--text-secondary);
+  border-color: var(--accent);
 }
 
 #sort-select:focus {
   outline: none;
-  border-color: var(--border-focus);
+  border-color: var(--accent);
 }
 
 .tabs-container {
@@ -304,6 +309,11 @@ h1 {
   text-overflow: ellipsis;
   margin-bottom: var(--space-xs);
   font-size: var(--font-size-base);
+  transition: color var(--transition);
+}
+
+.tab-item:hover .tab-title {
+  color: var(--accent);
 }
 
 .tab-meta {
