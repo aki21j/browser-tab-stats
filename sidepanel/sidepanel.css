@@ -7,14 +7,15 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   font-size: 14px;
-  color: #333;
-  background: #f5f5f5;
+  color: #1F2937;
+  background: #FAFAFA;
   line-height: 1.5;
 }
 
 .container {
   min-height: 100vh;
   padding: 16px;
+  background: #FAFAFA;
 }
 
 /* Header */
@@ -24,7 +25,7 @@ header {
   align-items: center;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e8eaed;
+  border-bottom: 1px solid #E5E7EB;
 }
 
 h1 {
@@ -49,16 +50,16 @@ h1 {
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
-  color: #5f6368;
+  color: #6B7280;
 }
 
 .icon-btn:hover {
-  background: #f1f3f4;
-  color: #202124;
+  background: #F5F5F7;
+  color: #1F2937;
 }
 
 .icon-btn:active {
-  background: #e8eaed;
+  background: #E5E7EB;
 }
 
 .icon-btn svg {
@@ -74,8 +75,8 @@ h1 {
 }
 
 .stat-card {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -86,16 +87,17 @@ h1 {
   transition: all 0.15s ease;
   cursor: default;
   min-width: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .stat-card:hover {
-  border-color: #8B5CF6;
-  box-shadow: 0 0 0 1px #8B5CF6;
+  border-color: #D1D5DB;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(139, 92, 246, 0.1);
 }
 
 .stat-label {
   font-size: 10px;
-  color: #5f6368;
+  color: #6B7280;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -109,30 +111,31 @@ h1 {
 .stat-value {
   font-size: 26px;
   font-weight: 600;
-  color: #202124;
+  color: #1F2937;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 /* Recommendations Section */
 .recommendations {
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .recommendations h2 {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: #333;
+  color: #1F2937;
 }
 
 .recommendation-item {
   padding: 12px;
-  background: #f8f9fa;
+  background: #F5F5F7;
   border-radius: 6px;
   margin-bottom: 8px;
   border-left: 4px solid #8B5CF6;
@@ -217,13 +220,13 @@ h1 {
   display: flex;
   align-items: center;
   padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #F5F5F7;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .tab-item:hover {
-  background: #f8f9fa;
+  background: #FAFAFA;
 }
 
 .tab-item:last-child {
@@ -245,7 +248,7 @@ h1 {
 
 .tab-title {
   font-weight: 500;
-  color: #333;
+  color: #1F2937;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -254,7 +257,7 @@ h1 {
 
 .tab-meta {
   font-size: 12px;
-  color: #5f6368;
+  color: #6B7280;
   display: flex;
   gap: 12px;
 }
