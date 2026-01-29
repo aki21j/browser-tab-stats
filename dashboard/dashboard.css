@@ -439,10 +439,11 @@ body {
 
 /* Tabs Table - Modern Design */
 #tabs-table-container {
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 12px;
-  border: 1px solid #e8eaed;
+  border: 1px solid #E5E7EB;
   overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .tabs-table {
@@ -452,8 +453,8 @@ body {
 }
 
 .tabs-table thead {
-  background: linear-gradient(180deg, #fafbfc 0%, #f8f9fa 100%);
-  border-bottom: 1px solid #e8eaed;
+  background: #F5F5F7;
+  border-bottom: 1px solid #E5E7EB;
   position: sticky;
   top: 0;
   z-index: 5;
@@ -464,7 +465,7 @@ body {
   text-align: left;
   font-size: 12px;
   font-weight: 600;
-  color: #5f6368;
+  color: #6B7280;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -475,18 +476,18 @@ body {
 
 .tabs-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid #F5F5F7;
   font-size: 14px;
-  color: #202124;
+  color: #1F2937;
 }
 
 .tabs-table tbody tr:hover {
-  background: linear-gradient(90deg, #f8f9fa 0%, #fafbfc 100%);
+  background: #FAFAFA;
   transform: scale(1.001);
 }
 
 .tabs-table tbody tr:hover td {
-  border-bottom-color: #e8eaed;
+  border-bottom-color: #E5E7EB;
 }
 
 .tab-row-checkbox {
@@ -506,7 +507,7 @@ body {
 
 .tab-row-title {
   font-weight: 500;
-  color: #202124;
+  color: #1F2937;
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -550,13 +551,14 @@ body {
 }
 
 .domain-card {
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
-  border: 1px solid #e8eaed;
+  border: 1px solid #E5E7EB;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .domain-card::before {
@@ -573,8 +575,8 @@ body {
 }
 
 .domain-card:hover {
-  border-color: #8B5CF6;
-  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.12);
+  border-color: #D1D5DB;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(139, 92, 246, 0.1);
   transform: translateY(-4px);
 }
 
@@ -593,7 +595,7 @@ body {
 .domain-name {
   font-size: 15px;
   font-weight: 600;
-  color: #202124;
+  color: #1F2937;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
