@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- No background - transparent with BRIGHT purple for visibility -->
+  
+  <!-- Funnel showing many tabs → organized single tab -->
+  <!-- Many tabs at top (chaotic) - BRIGHT purple with thick white outline -->
+  <rect x="25" y="30" width="78" height="8" rx="2" fill="#A78BFA" opacity="0.6" stroke="white" stroke-width="3"/>
+  <rect x="30" y="42" width="68" height="8" rx="2" fill="#A78BFA" opacity="0.8" stroke="white" stroke-width="3"/>
+  <rect x="35" y="54" width="58" height="8" rx="2" fill="#A78BFA" stroke="white" stroke-width="3"/>
+  
+  <!-- Funnel lines with thick white glow -->
+  <path d="M40 66 L50 78" stroke="white" stroke-width="7" stroke-linecap="round"/>
+  <path d="M40 66 L50 78" stroke="#A78BFA" stroke-width="4" stroke-linecap="round"/>
+  
+  <path d="M88 66 L78 78" stroke="white" stroke-width="7" stroke-linecap="round"/>
+  <path d="M88 66 L78 78" stroke="#A78BFA" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Single organized tab at bottom - BRIGHT purple with thick white outline -->
+  <rect x="48" y="80" width="32" height="18" rx="3" fill="#A78BFA" stroke="white" stroke-width="3"/>
+  <path d="M56 86 L60 90 L70 80" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M56 86 L60 90 L70 80" stroke="#C4B5FD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

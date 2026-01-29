@@ -31,7 +31,7 @@ body {
 .dashboard-header h1 {
   font-size: 28px;
   font-weight: 600;
-  color: #1a73e8;
+  color: #8B5CF6;
 }
 
 .header-actions {
@@ -51,12 +51,12 @@ body {
 }
 
 .btn-primary {
-  background: #1a73e8;
+  background: #8B5CF6;
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: #1557b0;
+  background: #7C3AED;
 }
 
 .btn-secondary {
@@ -114,13 +114,13 @@ body {
 }
 
 .tab-btn:hover {
-  color: #1a73e8;
+  color: #8B5CF6;
   background: #f8f9fa;
 }
 
 .tab-btn.active {
-  color: #1a73e8;
-  border-bottom-color: #1a73e8;
+  color: #8B5CF6;
+  border-bottom-color: #8B5CF6;
 }
 
 /* Content Area */
@@ -164,7 +164,7 @@ body {
 .stat-value {
   font-size: 36px;
   font-weight: 700;
-  color: #1a73e8;
+  color: #8B5CF6;
   margin-bottom: 8px;
 }
 
@@ -222,7 +222,7 @@ body {
   background: #f8f9fa;
   border-radius: 8px;
   margin-bottom: 12px;
-  border-left: 4px solid #1a73e8;
+  border-left: 4px solid #8B5CF6;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -272,7 +272,7 @@ body {
 
 .search-input:focus {
   outline: none;
-  border-color: #1a73e8;
+  border-color: #8B5CF6;
 }
 
 .filter-select {
@@ -349,7 +349,7 @@ body {
 }
 
 .tab-row-title:hover {
-  color: #1a73e8;
+  color: #8B5CF6;
   text-decoration: underline;
 }
 
@@ -402,8 +402,8 @@ body {
 }
 
 .domain-count {
-  background: #e8f0fe;
-  color: #1a73e8;
+  background: #F3F0FF;
+  color: #8B5CF6;
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 13px;
@@ -427,11 +427,12 @@ body {
 
 .domain-tab-title {
   cursor: pointer;
-  color: #1a73e8;
+  color: #8B5CF6;
   text-decoration: none;
 }
 
 .domain-tab-title:hover {
+  color: #A78BFA;
   text-decoration: underline;
 }
 
