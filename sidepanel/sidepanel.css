@@ -7,14 +7,15 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   font-size: 14px;
-  color: #333;
-  background: #f5f5f5;
+  color: #FAFAFA;
+  background: #0D0D0E;
   line-height: 1.5;
 }
 
 .container {
   min-height: 100vh;
   padding: 16px;
+  background: #0D0D0E;
 }
 
 /* Header */
@@ -24,13 +25,16 @@ header {
   align-items: center;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e8eaed;
+  border-bottom: 1px solid #3F3F46;
 }
 
 h1 {
   font-size: 20px;
   font-weight: 600;
-  color: #8B5CF6;
+  background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   letter-spacing: -0.3px;
 }
 
@@ -49,16 +53,16 @@ h1 {
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
-  color: #5f6368;
+  color: #A1A1AA;
 }
 
 .icon-btn:hover {
-  background: #f1f3f4;
-  color: #202124;
+  background: #27272A;
+  color: #A78BFA;
 }
 
 .icon-btn:active {
-  background: #e8eaed;
+  background: #3F3F46;
 }
 
 .icon-btn svg {
@@ -74,8 +78,8 @@ h1 {
 }
 
 .stat-card {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
+  border: 1px solid #3F3F46;
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -89,13 +93,13 @@ h1 {
 }
 
 .stat-card:hover {
-  border-color: #8B5CF6;
-  box-shadow: 0 0 0 1px #8B5CF6;
+  border-color: #A78BFA;
+  box-shadow: 0 0 0 1px #A78BFA, 0 4px 12px rgba(167, 139, 250, 0.2);
 }
 
 .stat-label {
   font-size: 10px;
-  color: #5f6368;
+  color: #A1A1AA;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -109,33 +113,33 @@ h1 {
 .stat-value {
   font-size: 26px;
   font-weight: 600;
-  color: #202124;
+  color: #FAFAFA;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 /* Recommendations Section */
 .recommendations {
-  background: #fff;
+  background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #3F3F46;
 }
 
 .recommendations h2 {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: #333;
+  color: #FAFAFA;
 }
 
 .recommendation-item {
   padding: 12px;
-  background: #f8f9fa;
+  background: #27272A;
   border-radius: 6px;
   margin-bottom: 8px;
-  border-left: 4px solid #8B5CF6;
+  border-left: 4px solid #A78BFA;
 }
 
 .recommendation-item.priority-high {
@@ -195,8 +199,10 @@ h1 {
 
 #sort-select {
   padding: 6px 10px;
-  border: 1px solid #dadce0;
+  border: 1px solid #3F3F46;
   border-radius: 4px;
+  background: #27272A;
+  color: #FAFAFA;
   background: #fff;
   cursor: pointer;
   font-size: 13px;
@@ -217,13 +223,13 @@ h1 {
   display: flex;
   align-items: center;
   padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #3F3F46;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
 .tab-item:hover {
-  background: #f8f9fa;
+  background: #27272A;
 }
 
 .tab-item:last-child {
@@ -245,7 +251,7 @@ h1 {
 
 .tab-title {
   font-weight: 500;
-  color: #333;
+  color: #FAFAFA;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -254,7 +260,7 @@ h1 {
 
 .tab-meta {
   font-size: 12px;
-  color: #5f6368;
+  color: #A1A1AA;
   display: flex;
   gap: 12px;
 }
