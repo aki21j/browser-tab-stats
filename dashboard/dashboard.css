@@ -666,53 +666,95 @@ body {
   color: #8B5CF6;
 }
 
-/* Settings Panel */
+/* Settings Panel - Modern Form Design */
 .settings-panel {
   background: #fff;
   border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8eaed;
   max-width: 800px;
 }
 
 .setting-group {
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #f1f3f4;
+  transition: all 0.2s;
+}
+
+.setting-group:hover {
+  padding-left: 12px;
+  border-left: 3px solid #8B5CF6;
 }
 
 .setting-group:last-of-type {
   border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .setting-group label {
   display: block;
-  font-size: 15px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #202124;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.setting-group label:hover {
+  color: #8B5CF6;
 }
 
 .setting-group input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
   vertical-align: middle;
   cursor: pointer;
+  accent-color: #8B5CF6;
+  transition: transform 0.2s;
+}
+
+.setting-group input[type="checkbox"]:hover {
+  transform: scale(1.1);
 }
 
 .setting-group input[type="number"] {
-  width: 200px;
-  padding: 10px 12px;
-  border: 1px solid #dadce0;
-  border-radius: 6px;
+  width: 220px;
+  padding: 12px 16px;
+  border: 1px solid #e8eaed;
+  border-radius: 10px;
   font-size: 14px;
+  transition: all 0.2s;
+  background: #f8f9fa;
+  font-weight: 500;
+  color: #202124;
+}
+
+.setting-group input[type="number"]:hover {
+  border-color: #d1d5db;
+  background: #fff;
+}
+
+.setting-group input[type="number"]:focus {
+  outline: none;
+  border-color: #8B5CF6;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 .setting-description {
   font-size: 13px;
   color: #5f6368;
-  margin-top: 4px;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.setting-description strong {
+  color: #202124;
+  font-weight: 600;
 }
 
 .setting-actions {
@@ -720,7 +762,7 @@ body {
   gap: 12px;
   margin-top: 32px;
   padding-top: 24px;
-  border-top: 2px solid #e0e0e0;
+  border-top: 1px solid #f1f3f4;
 }
 
 /* Empty State */
