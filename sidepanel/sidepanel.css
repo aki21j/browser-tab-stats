@@ -62,18 +62,11 @@ body {
 /* Header */
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: var(--space-lg);
-  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
   border-bottom: 1px solid var(--border);
-}
-
-h1 {
-  font-size: 20px;
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-  letter-spacing: -0.5px;
 }
 
 .header-actions {
@@ -178,12 +171,25 @@ h1 {
 }
 
 .recommendation-item {
-  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 12px;
   background: var(--bg-primary);
   border-radius: var(--radius);
   margin-bottom: var(--space-sm);
   border: 1px solid var(--border);
   border-left: 2px solid var(--accent);
+  transition: background var(--transition);
+}
+
+.recommendation-item:hover {
+  background: var(--bg-hover);
+}
+
+.recommendation-item:last-child {
+  margin-bottom: 0;
 }
 
 .recommendation-item.priority-high {
@@ -199,24 +205,36 @@ h1 {
 }
 
 .recommendation-message {
+  flex: 1;
   font-weight: var(--font-weight-normal);
-  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-sm);
   color: var(--text-primary);
+  line-height: 1.4;
 }
 
 .recommendation-action {
-  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   color: var(--accent);
-  text-decoration: none;
   cursor: pointer;
-  background: none;
+  background: transparent;
   border: none;
+  border-radius: var(--radius);
   padding: 0;
-  transition: color var(--transition);
+  transition: all var(--transition);
 }
 
 .recommendation-action:hover {
-  color: var(--accent-hover);
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+.recommendation-action svg {
+  display: block;
 }
 
 /* Tabs List Section */
@@ -329,9 +347,11 @@ h1 {
 
 .tab-actions {
   display: flex;
+  align-items: flex-start;
   gap: var(--space-xs);
   opacity: 0;
   transition: opacity var(--transition);
+  padding-top: 2px;
 }
 
 .tab-item:hover .tab-actions {
@@ -340,20 +360,24 @@ h1 {
 
 .tab-action-btn {
   background: transparent;
-  border: 1px solid var(--border);
+  border: none;
   border-radius: var(--radius);
-  padding: var(--space-xs) var(--space-sm);
+  padding: var(--space-xs);
   cursor: pointer;
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
   transition: all var(--transition);
   font-weight: var(--font-weight-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 
 .tab-action-btn:hover {
-  background: #DC2626;
-  color: var(--bg-primary);
-  border-color: #DC2626;
+  background: rgba(220, 38, 38, 0.1);
+  color: #DC2626;
 }
 
 /* Scrollbar Styling */

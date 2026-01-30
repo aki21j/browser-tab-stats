@@ -85,7 +85,11 @@ function displayRecommendations() {
     
     item.innerHTML = `
       <div class="recommendation-message">${rec.message}</div>
-      <button class="recommendation-action" data-type="${rec.type}">View Details</button>
+      <button class="recommendation-action" data-type="${rec.type}" title="View details">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
     `;
     
     item.querySelector('.recommendation-action').addEventListener('click', () => {
