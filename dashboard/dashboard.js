@@ -346,6 +346,25 @@ function createTrendChart() {
   
   const weeklyTrend = getWeeklyTrend(sessionStats);
   
+  // Check if there's any data
+  const hasData = weeklyTrend.some(d => d.opened > 0 || d.closed > 0);
+  
+  // Show empty state message if no data
+  const chartContainer = canvas.parentElement;
+  let emptyState = chartContainer.querySelector('.chart-empty-state');
+  
+  if (!hasData) {
+    if (!emptyState) {
+      emptyState = document.createElement('div');
+      emptyState.className = 'chart-empty-state';
+      emptyState.innerHTML = '<p>No activity tracked yet</p><span>Open or close tabs to see trends</span>';
+      chartContainer.appendChild(emptyState);
+    }
+    emptyState.style.display = 'flex';
+  } else if (emptyState) {
+    emptyState.style.display = 'none';
+  }
+  
   trendChart = new Chart(ctx, {
     type: 'line',
     data: {
