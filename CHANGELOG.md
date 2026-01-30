@@ -2,6 +2,93 @@
 
 All notable changes to Tab Stats will be documented in this file.
 
+## [1.2.0] - 2026-01-30
+
+### 🧠 Smart Stats & Insights
+
+#### New Stats Features
+- **Tab Health Score (0-100)**: Each tab gets a health score based on:
+  - Recency (40 pts): When was it last accessed?
+  - Frequency (30 pts): How often is it used?
+  - Age appropriateness (30 pts): Old but unused = unhealthy
+- **Tab Efficiency %**: Percentage of tabs scoring ≥50 (healthy)
+- **Session Tracking**: Daily tabs opened/closed counter
+- **Weekly Trend Chart**: Visual of opens/closes over 7 days
+- **Duplicates Badge**: Quick count in overview
+
+#### New Insights
+- **Oldest Tab Spotlight**: Shows age and title of oldest tab
+- **Top Domain Insight**: Domain with most tabs at a glance
+
+#### UI Polish
+- **Linear-Style Navigation**: Text-only tabs with underline indicator
+- **Empty State**: Friendly message when no trend data exists
+- **Compact Stats Grid**: Secondary stats in smaller cards
+
+### Technical
+- Service worker tracks daily open/close counts
+- Session stats stored with 30-day retention
+- New stats.js functions: `calculateTabHealthScore`, `calculateOverallTabHealth`, `getTodaySessionStats`, `getWeeklyTrend`
+
+---
+
+## [1.1.0] - 2026-01-29
+
+### ✨ Major UI/UX Modernization
+
+#### Accessibility & Usability
+- **Tooltips**: Added descriptive tooltips to all interactive elements
+- **Keyboard Shortcuts**: Full keyboard navigation support
+  - `⌘R` - Refresh statistics
+  - `⌘E` - Export data
+  - `⌘K` - Focus search
+  - `⌘1-4` - Navigate between tabs
+  - `⌘/` - Show keyboard shortcuts help
+- **Aria Labels**: Improved screen reader support throughout
+
+#### Dashboard Redesign
+- **Modern Tab Navigation**: Pill-style tabs with icons and smooth animations
+- **Overview Tab**: 
+  - Redesigned stat cards with hover animations
+  - Gradient top border on hover
+  - Modernized charts with accent bars
+  - Enhanced recommendations with gradient backgrounds
+- **Tab List Tab**:
+  - Search input with icon and focus states
+  - Modern filter dropdowns with custom styling
+  - Gradient background for bulk actions
+  - Sticky table header with smooth hover effects
+  - Purple accent for checkboxes
+- **Domains Tab**:
+  - Responsive grid layout for domain cards
+  - Gradient top border animation on hover
+  - Lift effect and shadow on card hover
+  - Custom scrollbar styling
+  - Smooth slide animation for tab items
+- **Settings Tab**:
+  - Modern form UI with hover effects
+  - Purple accent border on section hover
+  - Enhanced input styling with focus states
+  - Scale animation on checkbox hover
+
+#### Responsive Design
+- **Tablet Support** (max-width: 1200px)
+- **Mobile Support** (max-width: 768px)
+  - Full-width buttons
+  - Stacked layouts
+  - Hidden tab icons to save space
+  - Horizontal scroll for navigation
+- **Small Mobile** (max-width: 480px)
+  - Optimized font sizes
+  - Touch-friendly tap targets
+
+#### Visual Improvements
+- Consistent purple color scheme (#8B5CF6)
+- Smooth transitions and micro-interactions
+- Modern shadows and borders
+- Improved typography and spacing
+- Focus rings for accessibility
+
 ## [1.0.0] - 2024-11-29
 
 ### 🎉 Initial Release

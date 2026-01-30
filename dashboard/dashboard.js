@@ -1,13 +1,15 @@
 // Dashboard JavaScript
 
-import { calculateStats, getInactiveTabs, getTabsByAge, getTabsByActivations, getDomainStats, generateRecommendations } from '../shared/stats.js';
+import { calculateStats, getInactiveTabs, getTabsByAge, getTabsByActivations, getDomainStats, generateRecommendations, calculateOverallTabHealth, getTodaySessionStats, getWeeklyTrend } from '../shared/stats.js';
 import { getAllData, updateSettings, clearAllStats, exportData } from '../shared/storage.js';
 import { formatDuration, formatTimestamp, getFaviconUrl, truncate, groupBy, debounce } from '../shared/utils.js';
+import { keyboard } from '../shared/keyboard.js';
 
 let currentTabs = [];
 let tabStats = {};
 let closedTabs = [];
 let settings = {};
+let sessionStats = {};
 let selectedTabIds = new Set();
 let currentFilter = 'all';
 let currentSort = 'age-desc';
@@ -15,13 +17,14 @@ let searchQuery = '';
 
 // Charts
 let domainChart = null;
-let ageChart = null;
+let trendChart = null;
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   setupEventListeners();
   setupTabNavigation();
+  setupKeyboardShortcuts();
   displayOverview();
   
   // Check for filter parameter in URL
@@ -41,8 +44,47 @@ async function loadData() {
   tabStats = data.tabStats;
   closedTabs = data.closedTabs;
   settings = data.settings;
+  sessionStats = data.sessionStats;
   
   currentTabs = await chrome.tabs.query({});
+}
+
+// Setup keyboard shortcuts
+function setupKeyboardShortcuts() {
+  // Refresh
+  keyboard.register('cmd+r', () => {
+    document.getElementById('refresh-btn').click();
+  }, 'Refresh statistics');
+
+  // Export
+  keyboard.register('cmd+e', () => {
+    document.getElementById('export-btn').click();
+  }, 'Export data');
+
+  // Tab navigation
+  keyboard.register('cmd+1', () => switchTab('overview'), 'Go to Overview');
+  keyboard.register('cmd+2', () => switchTab('tabs-list'), 'Go to Tab List');
+  keyboard.register('cmd+3', () => switchTab('domains'), 'Go to Domains');
+  keyboard.register('cmd+4', () => switchTab('settings'), 'Go to Settings');
+
+  // Search focus
+  keyboard.register('cmd+k', () => {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      switchTab('tabs-list');
+      setTimeout(() => searchInput.focus(), 100);
+    }
+  }, 'Focus search');
+
+  // Help menu
+  keyboard.register('cmd+/', () => showKeyboardHelp(), 'Show keyboard shortcuts');
+}
+
+// Show keyboard shortcuts help
+function showKeyboardHelp() {
+  const shortcuts = keyboard.getAll();
+  const helpText = shortcuts.map(s => `${s.key}: ${s.description}`).join('\n');
+  alert(`Keyboard Shortcuts:\n\n${helpText}`);
 }
 
 // Setup event listeners
@@ -164,19 +206,48 @@ function refreshCurrentView() {
 // Display Overview Tab
 function displayOverview() {
   const stats = calculateStats(tabStats, currentTabs);
+  const healthStats = calculateOverallTabHealth(tabStats, currentTabs);
+  const todayStats = getTodaySessionStats(sessionStats);
   
-  // Update summary stats
+  // Primary stats
   document.getElementById('overview-total-tabs').textContent = stats.totalTabs;
   document.getElementById('overview-windows').textContent = stats.totalWindows;
-  document.getElementById('overview-avg-age').textContent = formatDuration(stats.averageAge);
-  document.getElementById('overview-avg-activations').textContent = Math.round(stats.averageActivations);
+  document.getElementById('overview-health-score').textContent = healthStats.averageHealth;
+  document.getElementById('overview-efficiency').textContent = `${healthStats.efficiency}%`;
+  
+  // Session stats (Today's Activity)
+  document.getElementById('overview-opened-today').textContent = todayStats.openedToday;
+  document.getElementById('overview-closed-today').textContent = todayStats.closedToday;
+  
+  const netChangeEl = document.getElementById('overview-net-change');
+  const netChange = todayStats.netChange;
+  netChangeEl.textContent = netChange >= 0 ? `+${netChange}` : netChange;
+  netChangeEl.className = `stat-value stat-value-small ${netChange > 0 ? 'positive' : netChange < 0 ? 'negative' : ''}`;
+  
+  // Duplicates count
+  const duplicateCount = stats.duplicateTabs.reduce((sum, d) => sum + d.count - 1, 0);
+  document.getElementById('overview-duplicates').textContent = duplicateCount;
+  
+  // Oldest tab insight
+  if (stats.oldestTab) {
+    const ageInDays = Math.floor(stats.oldestTab.age / (24 * 60 * 60 * 1000));
+    document.getElementById('oldest-tab-age').textContent = ageInDays > 0 ? `${ageInDays}d` : formatDuration(stats.oldestTab.age);
+    document.getElementById('oldest-tab-title').textContent = stats.oldestTab.title || 'Unknown';
+  }
+  
+  // Top domain insight
+  const topDomain = Object.entries(stats.domains).sort((a, b) => b[1] - a[1])[0];
+  if (topDomain) {
+    document.getElementById('top-domain-count').textContent = `${topDomain[1]} tabs`;
+    document.getElementById('top-domain-name').textContent = topDomain[0];
+  }
   
   // Display recommendations
   displayOverviewRecommendations();
   
   // Create charts
   createDomainChart(stats);
-  createAgeChart();
+  createTrendChart();
 }
 
 // Display recommendations in overview
@@ -239,8 +310,8 @@ function createDomainChart(stats) {
       datasets: [{
         label: 'Number of Tabs',
         data: domainData.map(d => d[1]),
-        backgroundColor: '#1a73e8',
-        borderRadius: 6
+        backgroundColor: '#8B5CF6',
+        borderRadius: 4
       }]
     },
     options: {
@@ -264,60 +335,77 @@ function createDomainChart(stats) {
 }
 
 // Create age distribution chart
-function createAgeChart() {
-  const canvas = document.getElementById('age-chart');
+function createTrendChart() {
+  const canvas = document.getElementById('trend-chart');
   const ctx = canvas.getContext('2d');
   
   // Destroy existing chart
-  if (ageChart) {
-    ageChart.destroy();
+  if (trendChart) {
+    trendChart.destroy();
   }
   
-  const now = Date.now();
-  const ageRanges = {
-    '< 1 hour': 0,
-    '1-24 hours': 0,
-    '1-7 days': 0,
-    '1-4 weeks': 0,
-    '> 1 month': 0
-  };
+  const weeklyTrend = getWeeklyTrend(sessionStats);
   
-  currentTabs.forEach(tab => {
-    const tabStat = tabStats[tab.id];
-    if (!tabStat) return;
-    
-    const age = now - tabStat.createdAt;
-    const hours = age / (1000 * 60 * 60);
-    const days = age / (1000 * 60 * 60 * 24);
-    
-    if (hours < 1) ageRanges['< 1 hour']++;
-    else if (hours < 24) ageRanges['1-24 hours']++;
-    else if (days < 7) ageRanges['1-7 days']++;
-    else if (days < 28) ageRanges['1-4 weeks']++;
-    else ageRanges['> 1 month']++;
-  });
+  // Check if there's any data
+  const hasData = weeklyTrend.some(d => d.opened > 0 || d.closed > 0);
   
-  ageChart = new Chart(ctx, {
-    type: 'doughnut',
+  // Show empty state message if no data
+  const chartContainer = canvas.parentElement;
+  let emptyState = chartContainer.querySelector('.chart-empty-state');
+  
+  if (!hasData) {
+    if (!emptyState) {
+      emptyState = document.createElement('div');
+      emptyState.className = 'chart-empty-state';
+      emptyState.innerHTML = '<p>No activity tracked yet</p><span>Open or close tabs to see trends</span>';
+      chartContainer.appendChild(emptyState);
+    }
+    emptyState.style.display = 'flex';
+  } else if (emptyState) {
+    emptyState.style.display = 'none';
+  }
+  
+  trendChart = new Chart(ctx, {
+    type: 'line',
     data: {
-      labels: Object.keys(ageRanges),
-      datasets: [{
-        data: Object.values(ageRanges),
-        backgroundColor: [
-          '#34a853',
-          '#fbbc04',
-          '#1a73e8',
-          '#ea4335',
-          '#9e9e9e'
-        ]
-      }]
+      labels: weeklyTrend.map(d => d.day),
+      datasets: [
+        {
+          label: 'Opened',
+          data: weeklyTrend.map(d => d.opened),
+          borderColor: '#10B981',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          fill: true,
+          tension: 0.3
+        },
+        {
+          label: 'Closed',
+          data: weeklyTrend.map(d => d.closed),
+          borderColor: '#DC2626',
+          backgroundColor: 'rgba(220, 38, 38, 0.1)',
+          fill: true,
+          tension: 0.3
+        }
+      ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: true,
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      },
       plugins: {
         legend: {
           position: 'bottom'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
         }
       }
     }

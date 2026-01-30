@@ -9,43 +9,88 @@
 <body>
   <div class="dashboard">
     <header class="dashboard-header">
-      <h1>Tab Statistics Dashboard</h1>
+      <div class="header-brand">
+        <svg class="header-icon" width="24" height="24" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="30" width="78" height="8" rx="2" fill="#A78BFA" opacity="0.6"/>
+          <rect x="30" y="42" width="68" height="8" rx="2" fill="#A78BFA" opacity="0.8"/>
+          <rect x="35" y="54" width="58" height="8" rx="2" fill="#A78BFA"/>
+          <path d="M40 66 L50 78" stroke="#A78BFA" stroke-width="4" stroke-linecap="round"/>
+          <path d="M88 66 L78 78" stroke="#A78BFA" stroke-width="4" stroke-linecap="round"/>
+          <rect x="48" y="80" width="32" height="18" rx="3" fill="#A78BFA"/>
+          <path d="M56 86 L60 90 L70 80" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <h1>Tab Stats</h1>
+      </div>
       <div class="header-actions">
-        <button id="export-btn" class="btn btn-secondary">Export Data</button>
-        <button id="refresh-btn" class="btn btn-primary">Refresh</button>
+        <button id="export-btn" class="btn btn-secondary" title="Export statistics as JSON (⌘E)" aria-label="Export data">Export</button>
+        <button id="refresh-btn" class="btn btn-primary" title="Refresh all statistics (⌘R)" aria-label="Refresh">Refresh</button>
       </div>
     </header>
 
-    <nav class="tabs-nav">
-      <button class="tab-btn active" data-tab="overview">Overview</button>
-      <button class="tab-btn" data-tab="tabs-list">Tab List</button>
-      <button class="tab-btn" data-tab="domains">Domains</button>
-      <button class="tab-btn" data-tab="settings">Settings</button>
+    <nav class="tabs-nav" role="tablist" aria-label="Dashboard navigation">
+      <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true" title="Overview and statistics (⌘1)">Overview</button>
+      <button class="tab-btn" data-tab="tabs-list" role="tab" aria-selected="false" title="Detailed tab list (⌘2)">Tab List</button>
+      <button class="tab-btn" data-tab="domains" role="tab" aria-selected="false" title="Domain analysis (⌘3)">Domains</button>
+      <button class="tab-btn" data-tab="settings" role="tab" aria-selected="false" title="Extension settings (⌘4)">Settings</button>
     </nav>
 
     <main class="dashboard-content">
       <!-- Overview Tab -->
       <div id="overview-tab" class="tab-content active">
+        <!-- Primary Stats -->
         <div class="stats-grid">
-          <div class="stat-card large">
-            <div class="stat-icon">📊</div>
+          <div class="stat-card">
             <div class="stat-value" id="overview-total-tabs">0</div>
-            <div class="stat-label">Total Open Tabs</div>
+            <div class="stat-label">Total Tabs</div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">🪟</div>
             <div class="stat-value" id="overview-windows">0</div>
             <div class="stat-label">Windows</div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">⏱️</div>
-            <div class="stat-value" id="overview-avg-age">0h</div>
-            <div class="stat-label">Avg Tab Age</div>
+            <div class="stat-value" id="overview-health-score">0</div>
+            <div class="stat-label">Health Score</div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">🎯</div>
-            <div class="stat-value" id="overview-avg-activations">0</div>
-            <div class="stat-label">Avg Activations</div>
+            <div class="stat-value" id="overview-efficiency">0%</div>
+            <div class="stat-label">Tab Efficiency</div>
+          </div>
+        </div>
+
+        <!-- Session Stats -->
+        <div class="section-header">
+          <h3>Today's Activity</h3>
+        </div>
+        <div class="stats-grid stats-grid-small">
+          <div class="stat-card stat-card-compact">
+            <div class="stat-value stat-value-small" id="overview-opened-today">0</div>
+            <div class="stat-label">Opened Today</div>
+          </div>
+          <div class="stat-card stat-card-compact">
+            <div class="stat-value stat-value-small" id="overview-closed-today">0</div>
+            <div class="stat-label">Closed Today</div>
+          </div>
+          <div class="stat-card stat-card-compact">
+            <div class="stat-value stat-value-small" id="overview-net-change">0</div>
+            <div class="stat-label">Net Change</div>
+          </div>
+          <div class="stat-card stat-card-compact">
+            <div class="stat-value stat-value-small" id="overview-duplicates">0</div>
+            <div class="stat-label">Duplicates</div>
+          </div>
+        </div>
+
+        <!-- Insights -->
+        <div class="insights-grid">
+          <div class="insight-card" id="oldest-tab-insight">
+            <div class="insight-label">Oldest Tab</div>
+            <div class="insight-value" id="oldest-tab-age">-</div>
+            <div class="insight-detail" id="oldest-tab-title">No tabs tracked yet</div>
+          </div>
+          <div class="insight-card" id="top-domain-insight">
+            <div class="insight-label">Top Domain</div>
+            <div class="insight-value" id="top-domain-count">-</div>
+            <div class="insight-detail" id="top-domain-name">No domains yet</div>
           </div>
         </div>
 
@@ -55,13 +100,13 @@
             <canvas id="domain-chart"></canvas>
           </div>
           <div class="chart-card">
-            <h3>Tab Age Distribution</h3>
-            <canvas id="age-chart"></canvas>
+            <h3>Weekly Trend</h3>
+            <canvas id="trend-chart"></canvas>
           </div>
         </div>
 
         <div class="recommendations-panel">
-          <h2>Smart Recommendations</h2>
+          <h2>Recommendations</h2>
           <div id="overview-recommendations"></div>
         </div>
       </div>

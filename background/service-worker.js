@@ -3,6 +3,11 @@
 
 console.log('Tab Stats service worker started');
 
+// Get today's date key for session tracking
+function getTodayKey() {
+  return new Date().toISOString().split('T')[0]; // "2024-01-15"
+}
+
 // Initialize extension on install
 chrome.runtime.onInstalled.addListener(async () => {
   console.log('Tab Stats extension installed');
@@ -16,7 +21,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 
 // Initialize storage with default settings
 async function initializeStorage() {
-  const result = await chrome.storage.local.get(['settings', 'tabStats']);
+  const result = await chrome.storage.local.get(['settings', 'tabStats', 'sessionStats']);
   
   if (!result.settings) {
     await chrome.storage.local.set({
@@ -31,6 +36,40 @@ async function initializeStorage() {
   if (!result.tabStats) {
     await chrome.storage.local.set({ tabStats: {} });
   }
+  
+  // Initialize session stats tracking
+  if (!result.sessionStats) {
+    await chrome.storage.local.set({ 
+      sessionStats: {
+        daily: {} // { "2024-01-15": { opened: 5, closed: 3 } }
+      }
+    });
+  }
+}
+
+// Update daily session stats
+async function updateSessionStats(action) {
+  const todayKey = getTodayKey();
+  const { sessionStats = { daily: {} } } = await chrome.storage.local.get('sessionStats');
+  
+  if (!sessionStats.daily[todayKey]) {
+    sessionStats.daily[todayKey] = { opened: 0, closed: 0 };
+  }
+  
+  if (action === 'opened') {
+    sessionStats.daily[todayKey].opened++;
+  } else if (action === 'closed') {
+    sessionStats.daily[todayKey].closed++;
+  }
+  
+  // Keep only last 30 days of session stats
+  const keys = Object.keys(sessionStats.daily).sort();
+  if (keys.length > 30) {
+    const keysToRemove = keys.slice(0, keys.length - 30);
+    keysToRemove.forEach(key => delete sessionStats.daily[key]);
+  }
+  
+  await chrome.storage.local.set({ sessionStats });
 }
 
 // Track all currently open tabs on startup
@@ -46,6 +85,7 @@ async function trackExistingTabs() {
 // Track when a new tab is created
 chrome.tabs.onCreated.addListener(async (tab) => {
   await trackTabCreation(tab, Date.now());
+  await updateSessionStats('opened');
 });
 
 // Track when a tab is activated (user switches to it)
@@ -64,6 +104,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 // Track when a tab is removed
 chrome.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
   await trackTabRemoval(tabId, Date.now());
+  await updateSessionStats('closed');
 });
 
 // Helper functions for tracking
