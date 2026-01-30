@@ -270,6 +270,86 @@ body {
   text-transform: uppercase;
 }
 
+/* Compact stat cards for secondary stats */
+.stats-grid-small {
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: var(--space-lg);
+}
+
+.stat-card-compact {
+  padding: var(--space-md);
+}
+
+.stat-value-small {
+  font-size: 28px;
+}
+
+/* Section headers */
+.section-header {
+  margin-bottom: var(--space-md);
+}
+
+.section-header h3 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Insight cards */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.insight-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  transition: border-color var(--transition);
+  cursor: pointer;
+}
+
+.insight-card:hover {
+  border-color: var(--accent);
+}
+
+.insight-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-xs);
+}
+
+.insight-value {
+  font-size: 24px;
+  font-weight: var(--font-weight-medium);
+  color: var(--accent);
+  margin-bottom: var(--space-xs);
+}
+
+.insight-detail {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Net change coloring */
+.stat-value.positive {
+  color: #10B981;
+}
+
+.stat-value.negative {
+  color: #DC2626;
+}
+
 /* Charts Grid - Linear Style */
 .charts-grid {
   display: grid;
@@ -784,12 +864,24 @@ body {
     gap: var(--space-sm);
   }
   
+  .stats-grid-small {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .stat-card {
     padding: var(--space-md);
   }
   
   .stat-value {
     font-size: 32px;
+  }
+  
+  .stat-value-small {
+    font-size: 24px;
   }
   
   .charts-grid {

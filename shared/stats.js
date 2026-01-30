@@ -3,6 +3,137 @@
 import { extractDomain, groupBy } from './utils.js';
 
 /**
+ * Calculate Tab Health Score (0-100) for a single tab
+ * Higher score = healthier tab (used recently and frequently)
+ * @param {Object} tabStat - Tab statistics
+ * @param {number} now - Current timestamp
+ * @returns {number} - Health score 0-100
+ */
+export function calculateTabHealthScore(tabStat, now = Date.now()) {
+  if (!tabStat) return 0;
+  
+  // Factors:
+  // 1. Recency (when was it last accessed?) - 40 points
+  // 2. Frequency (how often is it used?) - 30 points
+  // 3. Age appropriateness (old but unused = bad) - 30 points
+  
+  const dayMs = 24 * 60 * 60 * 1000;
+  
+  // Recency Score (40 points max)
+  // Last accessed within 1 hour = 40, within 1 day = 30, within 7 days = 15, older = 5
+  const hoursSinceAccess = (now - tabStat.lastAccessedAt) / (60 * 60 * 1000);
+  let recencyScore;
+  if (hoursSinceAccess < 1) recencyScore = 40;
+  else if (hoursSinceAccess < 24) recencyScore = 30;
+  else if (hoursSinceAccess < 24 * 7) recencyScore = 15;
+  else recencyScore = 5;
+  
+  // Frequency Score (30 points max)
+  // 10+ activations = 30, 5-9 = 20, 2-4 = 10, 1 = 5
+  const activations = tabStat.activationCount || 1;
+  let frequencyScore;
+  if (activations >= 10) frequencyScore = 30;
+  else if (activations >= 5) frequencyScore = 20;
+  else if (activations >= 2) frequencyScore = 10;
+  else frequencyScore = 5;
+  
+  // Age Appropriateness Score (30 points max)
+  // Newer tabs get benefit of doubt, old unused tabs penalized
+  const ageInDays = (now - tabStat.createdAt) / dayMs;
+  const usageRatio = activations / Math.max(ageInDays, 1); // activations per day
+  let ageScore;
+  if (ageInDays < 1) ageScore = 30; // New tab
+  else if (usageRatio >= 1) ageScore = 30; // Used at least once per day
+  else if (usageRatio >= 0.5) ageScore = 20;
+  else if (usageRatio >= 0.1) ageScore = 10;
+  else ageScore = 5;
+  
+  return Math.round(recencyScore + frequencyScore + ageScore);
+}
+
+/**
+ * Calculate aggregate Tab Health for all tabs
+ * @param {Object} tabStats - All tab statistics
+ * @param {Array} currentTabs - Currently open tabs
+ * @returns {Object} - { averageHealth, healthyCount, unhealthyCount, distribution }
+ */
+export function calculateOverallTabHealth(tabStats, currentTabs) {
+  const now = Date.now();
+  let totalScore = 0;
+  let healthyCount = 0; // Score >= 50
+  let unhealthyCount = 0; // Score < 50
+  const distribution = { excellent: 0, good: 0, fair: 0, poor: 0 };
+  
+  currentTabs.forEach(tab => {
+    const tabStat = tabStats[tab.id];
+    if (tabStat) {
+      const score = calculateTabHealthScore(tabStat, now);
+      totalScore += score;
+      
+      if (score >= 50) healthyCount++;
+      else unhealthyCount++;
+      
+      if (score >= 75) distribution.excellent++;
+      else if (score >= 50) distribution.good++;
+      else if (score >= 25) distribution.fair++;
+      else distribution.poor++;
+    }
+  });
+  
+  const count = currentTabs.length || 1;
+  return {
+    averageHealth: Math.round(totalScore / count),
+    healthyCount,
+    unhealthyCount,
+    distribution,
+    efficiency: Math.round((healthyCount / count) * 100)
+  };
+}
+
+/**
+ * Get session stats for today
+ * @param {Object} sessionStats - Session stats from storage
+ * @returns {Object} - { openedToday, closedToday, netChange }
+ */
+export function getTodaySessionStats(sessionStats) {
+  const todayKey = new Date().toISOString().split('T')[0];
+  const today = sessionStats?.daily?.[todayKey] || { opened: 0, closed: 0 };
+  
+  return {
+    openedToday: today.opened,
+    closedToday: today.closed,
+    netChange: today.opened - today.closed
+  };
+}
+
+/**
+ * Get weekly trend data
+ * @param {Object} sessionStats - Session stats from storage
+ * @returns {Array} - Array of { date, opened, closed, net } for last 7 days
+ */
+export function getWeeklyTrend(sessionStats) {
+  const trend = [];
+  const now = new Date();
+  
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(now);
+    date.setDate(date.getDate() - i);
+    const key = date.toISOString().split('T')[0];
+    const dayStats = sessionStats?.daily?.[key] || { opened: 0, closed: 0 };
+    
+    trend.push({
+      date: key,
+      day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+      opened: dayStats.opened,
+      closed: dayStats.closed,
+      net: dayStats.opened - dayStats.closed
+    });
+  }
+  
+  return trend;
+}
+
+/**
  * Calculate comprehensive tab statistics
  * @param {Object} tabStats - Tab statistics from storage
  * @param {Array} currentTabs - Currently open tabs from chrome.tabs.query

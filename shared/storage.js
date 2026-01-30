@@ -2,15 +2,16 @@
 
 /**
  * Get all tab statistics from storage
- * @returns {Promise<Object>} - Object containing tabStats, closedTabs, and settings
+ * @returns {Promise<Object>} - Object containing tabStats, closedTabs, settings, and sessionStats
  */
 export async function getAllData() {
   return new Promise((resolve) => {
-    chrome.storage.local.get(['tabStats', 'closedTabs', 'settings'], (result) => {
+    chrome.storage.local.get(['tabStats', 'closedTabs', 'settings', 'sessionStats'], (result) => {
       resolve({
         tabStats: result.tabStats || {},
         closedTabs: result.closedTabs || [],
-        settings: result.settings || getDefaultSettings()
+        settings: result.settings || getDefaultSettings(),
+        sessionStats: result.sessionStats || { daily: {} }
       });
     });
   });
