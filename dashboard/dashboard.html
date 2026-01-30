@@ -9,9 +9,20 @@
 <body>
   <div class="dashboard">
     <header class="dashboard-header">
-      <h1>Tab Statistics Dashboard</h1>
+      <div class="header-brand">
+        <svg class="header-icon" width="24" height="24" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="30" width="78" height="8" rx="2" fill="#A78BFA" opacity="0.6"/>
+          <rect x="30" y="42" width="68" height="8" rx="2" fill="#A78BFA" opacity="0.8"/>
+          <rect x="35" y="54" width="58" height="8" rx="2" fill="#A78BFA"/>
+          <path d="M40 66 L50 78" stroke="#A78BFA" stroke-width="4" stroke-linecap="round"/>
+          <path d="M88 66 L78 78" stroke="#A78BFA" stroke-width="4" stroke-linecap="round"/>
+          <rect x="48" y="80" width="32" height="18" rx="3" fill="#A78BFA"/>
+          <path d="M56 86 L60 90 L70 80" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <h1>Tab Stats</h1>
+      </div>
       <div class="header-actions">
-        <button id="export-btn" class="btn btn-secondary" title="Export statistics as JSON (⌘E)" aria-label="Export data">Export Data</button>
+        <button id="export-btn" class="btn btn-secondary" title="Export statistics as JSON (⌘E)" aria-label="Export data">Export</button>
         <button id="refresh-btn" class="btn btn-primary" title="Refresh all statistics (⌘R)" aria-label="Refresh">Refresh</button>
       </div>
     </header>
