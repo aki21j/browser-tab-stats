@@ -178,13 +178,29 @@ browser-tab-stats/
 
 ## 🗺️ Roadmap
 
+### ✅ Completed
+- [x] Keyboard shortcuts (⌘R, ⌘E, ⌘K, ⌘1-4)
+- [x] Tab Health Score (0-100 per tab)
+- [x] Session tracking (daily opens/closes)
+- [x] Weekly trend visualization
+- [x] Linear-style minimalist UI
+
+### 🔜 Tier 2 (Next Up)
+- [ ] Memory usage estimates per tab
+- [ ] Tab grouping suggestions by domain/topic
+- [ ] "Focus Mode" - hide all but essential tabs
+- [ ] Tab age distribution chart
+- [ ] Productivity score trends over time
+
+### 🔮 Tier 3 (Future)
 - [ ] Firefox & Edge support
-- [ ] Session management (save/restore tabs)
-- [ ] Keyboard shortcuts
-- [ ] Dark mode
-- [ ] Tab grouping suggestions
-- [ ] Productivity insights over time
-- [ ] Scheduled auto-cleanup
+- [ ] Session management (save/restore tab sets)
+- [ ] Scheduled auto-cleanup rules
+- [ ] Dark mode theme
+- [ ] Tab preview on hover
+- [ ] Bookmark integration
+- [ ] CSV export format
+- [ ] Undo for bulk actions
 
 ## 🤝 Contributing
 

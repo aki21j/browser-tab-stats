@@ -2,6 +2,36 @@
 
 All notable changes to Tab Stats will be documented in this file.
 
+## [1.2.0] - 2026-01-30
+
+### 🧠 Smart Stats & Insights
+
+#### New Stats Features
+- **Tab Health Score (0-100)**: Each tab gets a health score based on:
+  - Recency (40 pts): When was it last accessed?
+  - Frequency (30 pts): How often is it used?
+  - Age appropriateness (30 pts): Old but unused = unhealthy
+- **Tab Efficiency %**: Percentage of tabs scoring ≥50 (healthy)
+- **Session Tracking**: Daily tabs opened/closed counter
+- **Weekly Trend Chart**: Visual of opens/closes over 7 days
+- **Duplicates Badge**: Quick count in overview
+
+#### New Insights
+- **Oldest Tab Spotlight**: Shows age and title of oldest tab
+- **Top Domain Insight**: Domain with most tabs at a glance
+
+#### UI Polish
+- **Linear-Style Navigation**: Text-only tabs with underline indicator
+- **Empty State**: Friendly message when no trend data exists
+- **Compact Stats Grid**: Secondary stats in smaller cards
+
+### Technical
+- Service worker tracks daily open/close counts
+- Session stats stored with 30-day retention
+- New stats.js functions: `calculateTabHealthScore`, `calculateOverallTabHealth`, `getTodaySessionStats`, `getWeeklyTrend`
+
+---
+
 ## [1.1.0] - 2026-01-29
 
 ### ✨ Major UI/UX Modernization
