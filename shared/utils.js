@@ -133,3 +133,16 @@ export function groupBy(array, key) {
   }, {});
 }
 
+/**
+ * Format memory in MB to human-readable string
+ * @param {number} mb - Memory in megabytes
+ * @returns {string} - Formatted memory string (e.g. "345 MB" or "1.2 GB")
+ */
+export function formatMemory(mb) {
+  if (mb == null || isNaN(mb)) return '--';
+  if (mb >= 1024) {
+    return `${(mb / 1024).toFixed(1)} GB`;
+  }
+  return `${Math.round(mb)} MB`;
+}
+

@@ -2,7 +2,8 @@
 
 import { calculateStats, getInactiveTabs, getTabsByAge, getTabsByActivations, getDomainStats, generateRecommendations, calculateOverallTabHealth, getTodaySessionStats, getWeeklyTrend } from '../shared/stats.js';
 import { getAllData, updateSettings, clearAllStats, exportData } from '../shared/storage.js';
-import { formatDuration, formatTimestamp, getFaviconUrl, truncate, groupBy, debounce } from '../shared/utils.js';
+import { formatDuration, formatTimestamp, getFaviconUrl, truncate, groupBy, debounce, formatMemory, extractDomain } from '../shared/utils.js';
+import { estimateAllTabsMemory, calculateMemoryStats, clearMemoryCache } from '../shared/memory.js';
 import { keyboard } from '../shared/keyboard.js';
 
 let currentTabs = [];
@@ -14,10 +15,13 @@ let selectedTabIds = new Set();
 let currentFilter = 'all';
 let currentSort = 'age-desc';
 let searchQuery = '';
+let memoryEstimates = {};
+let memoryStats = {};
 
 // Charts
 let domainChart = null;
 let trendChart = null;
+let memoryDomainChart = null;
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', async () => {
@@ -26,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupTabNavigation();
   setupKeyboardShortcuts();
   displayOverview();
-  
+
   // Check for filter parameter in URL
   const urlParams = new URLSearchParams(window.location.search);
   const filterParam = urlParams.get('filter');
@@ -36,6 +40,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     currentFilter = filterParam;
     displayTabsList();
   }
+
+  // Estimate memory in background (non-blocking)
+  estimateMemoryInBackground();
 });
 
 // Load data from storage and Chrome APIs
@@ -91,8 +98,10 @@ function showKeyboardHelp() {
 function setupEventListeners() {
   // Header actions
   document.getElementById('refresh-btn').addEventListener('click', async () => {
+    clearMemoryCache();
     await loadData();
     refreshCurrentView();
+    estimateMemoryInBackground();
   });
   
   document.getElementById('export-btn').addEventListener('click', async () => {
@@ -265,28 +274,32 @@ function displayOverviewRecommendations() {
   recommendations.forEach(rec => {
     const card = document.createElement('div');
     card.className = `recommendation-card priority-${rec.priority}`;
-    
+
     const tabCount = rec.tabs?.length || rec.duplicates?.reduce((sum, d) => sum + d.tabs.length - 1, 0) || 0;
-    
+
     card.innerHTML = `
       <div class="recommendation-info">
         <h4>${rec.message}</h4>
         <p>${tabCount} tab${tabCount !== 1 ? 's' : ''} affected</p>
       </div>
-      <button class="btn btn-secondary" onclick="viewRecommendation('${rec.type}')">View</button>
+      <button class="btn btn-secondary recommendation-view-btn" data-type="${rec.type}">View</button>
     `;
-    
+
     container.appendChild(card);
   });
-}
 
-// View recommendation (global function for onclick)
-window.viewRecommendation = function(type) {
-  switchTab('tabs-list');
-  document.getElementById('filter-select').value = type === 'inactive' ? 'inactive' : type === 'duplicate' ? 'duplicates' : 'rarely-used';
-  currentFilter = document.getElementById('filter-select').value;
-  displayTabsList();
-};
+  // Attach event listeners (inline onclick blocked by MV3 CSP)
+  container.querySelectorAll('.recommendation-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      switchTab('tabs-list');
+      const filterMap = { inactive: 'inactive', duplicate: 'duplicates' };
+      document.getElementById('filter-select').value = filterMap[type] || 'rarely-used';
+      currentFilter = document.getElementById('filter-select').value;
+      displayTabsList();
+    });
+  });
+}
 
 // Create domain chart
 function createDomainChart(stats) {
@@ -462,6 +475,10 @@ function sortTabs(tabs, sortType) {
       return getTabsByActivations(tabStats, tabs, true);
     case 'title':
       return tabs.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    case 'memory-desc':
+      return tabs.sort((a, b) => (memoryEstimates[b.id]?.estimateMB || 0) - (memoryEstimates[a.id]?.estimateMB || 0));
+    case 'memory-asc':
+      return tabs.sort((a, b) => (memoryEstimates[a.id]?.estimateMB || 0) - (memoryEstimates[b.id]?.estimateMB || 0));
     default:
       return tabs;
   }
@@ -494,6 +511,7 @@ function renderTabsTable(tabs) {
           <th>Age</th>
           <th>Last Access</th>
           <th>Activations</th>
+          <th>Memory</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -505,6 +523,9 @@ function renderTabsTable(tabs) {
           const activations = tabStat?.activationCount || 0;
           const domain = tabStat?.domain || 'unknown';
           
+          const memEst = memoryEstimates[tab.id];
+          const memDisplay = memEst ? formatMemory(memEst.estimateMB) : '...';
+
           return `
             <tr data-tab-id="${tab.id}">
               <td><input type="checkbox" class="tab-row-checkbox" data-tab-id="${tab.id}"></td>
@@ -516,6 +537,7 @@ function renderTabsTable(tabs) {
               <td>${age}</td>
               <td>${lastAccess}</td>
               <td>${activations}</td>
+              <td class="tab-row-memory">${memDisplay}</td>
               <td><button class="tab-row-action" data-tab-id="${tab.id}">Close</button></td>
             </tr>
           `;
@@ -689,5 +711,175 @@ async function saveSettings() {
   await updateSettings(newSettings);
   settings = newSettings;
   alert('Settings saved successfully!');
+}
+
+// Estimate memory in background and update UI
+async function estimateMemoryInBackground() {
+  try {
+    memoryEstimates = await estimateAllTabsMemory(currentTabs);
+    memoryStats = calculateMemoryStats(memoryEstimates);
+    updateMemoryUI();
+  } catch (error) {
+    console.error('Error estimating memory:', error);
+  }
+}
+
+// Update memory-related UI elements in-place (no full re-render)
+function updateMemoryUI() {
+  // Overview stat card
+  const totalMemEl = document.getElementById('overview-total-memory');
+  if (totalMemEl) {
+    totalMemEl.textContent = formatMemory(memoryStats.totalMB);
+  }
+
+  // Heaviest tab insight card
+  const heaviestCard = document.getElementById('heaviest-tab-insight');
+  const heaviestMemEl = document.getElementById('heaviest-tab-memory');
+  const heaviestTitleEl = document.getElementById('heaviest-tab-title');
+  if (heaviestMemEl && memoryStats.heaviestTabId) {
+    heaviestMemEl.textContent = formatMemory(memoryStats.heaviestMB);
+    const heaviestTab = currentTabs.find(t => t.id === memoryStats.heaviestTabId);
+    if (heaviestTitleEl && heaviestTab) {
+      heaviestTitleEl.textContent = truncate(heaviestTab.title || 'Untitled', 40);
+    }
+
+    // Warning styling based on memory threshold
+    if (heaviestCard) {
+      heaviestCard.classList.remove('insight-card-warning', 'insight-card-danger');
+      let existingHint = heaviestCard.querySelector('.insight-hint');
+      if (existingHint) existingHint.remove();
+
+      if (memoryStats.heaviestMB > 500) {
+        heaviestCard.classList.add('insight-card-danger');
+        const hint = document.createElement('div');
+        hint.className = 'insight-hint insight-hint-danger';
+        hint.textContent = 'Very heavy — likely slowing your browser';
+        heaviestCard.appendChild(hint);
+      } else if (memoryStats.heaviestMB > 200) {
+        heaviestCard.classList.add('insight-card-warning');
+        const hint = document.createElement('div');
+        hint.className = 'insight-hint insight-hint-warning';
+        hint.textContent = 'Heavy — consider closing';
+        heaviestCard.appendChild(hint);
+      }
+    }
+  } else if (heaviestMemEl) {
+    heaviestMemEl.textContent = '--';
+    if (heaviestTitleEl) heaviestTitleEl.textContent = 'No tabs';
+  }
+
+  // Update memory cells in tab list table
+  document.querySelectorAll('tr[data-tab-id]').forEach(row => {
+    const tabId = parseInt(row.dataset.tabId);
+    const memCell = row.querySelector('.tab-row-memory');
+    if (memCell && memoryEstimates[tabId]) {
+      memCell.textContent = formatMemory(memoryEstimates[tabId].estimateMB);
+    }
+  });
+
+  // Create/update memory by domain chart
+  createMemoryDomainChart();
+}
+
+// Color palette for stacked bar segments (dark to light purple)
+const MEMORY_CHART_PALETTE = [
+  '#6D28D9', '#7C3AED', '#8B5CF6', '#A78BFA',
+  '#C4B5FD', '#DDD6FE', '#EDE9FE', '#F5F3FF'
+];
+
+// Create Memory by Domain chart (stacked horizontal bar with per-tab segments)
+function createMemoryDomainChart() {
+  const canvas = document.getElementById('memory-domain-chart');
+  if (!canvas) return;
+
+  // Remove loading indicator
+  const loading = document.getElementById('memory-chart-loading');
+  if (loading) loading.remove();
+  const ctx = canvas.getContext('2d');
+
+  if (memoryDomainChart) {
+    memoryDomainChart.destroy();
+  }
+
+  // Aggregate memory by domain, keeping per-tab detail
+  const domainMap = {};
+  currentTabs.forEach(tab => {
+    const domain = extractDomain(tab.url);
+    const est = memoryEstimates[tab.id];
+    if (!est) return;
+    if (!domainMap[domain]) {
+      domainMap[domain] = { totalMB: 0, tabs: [] };
+    }
+    domainMap[domain].totalMB += est.estimateMB;
+    domainMap[domain].tabs.push({
+      title: tab.title || 'Untitled',
+      estimateMB: est.estimateMB
+    });
+  });
+
+  // Sort by total memory, take top 10; sort tabs within each domain heaviest-first
+  const sorted = Object.entries(domainMap)
+    .sort((a, b) => b[1].totalMB - a[1].totalMB)
+    .slice(0, 10);
+  sorted.forEach(([, info]) => info.tabs.sort((a, b) => b.estimateMB - a.estimateMB));
+
+  const labels = sorted.map(d => d[0]);
+  const maxTabs = Math.max(...sorted.map(d => d[1].tabs.length), 1);
+
+  // Build one dataset per "tab layer" for stacked bars
+  // tabMeta[layerIndex][domainIndex] stores the tab info for tooltip
+  const datasets = [];
+  const tabMeta = [];
+  for (let i = 0; i < maxTabs; i++) {
+    const layerData = sorted.map(d => {
+      const tab = d[1].tabs[i];
+      return tab ? Math.round(tab.estimateMB * 10) / 10 : 0;
+    });
+    const layerMeta = sorted.map(d => d[1].tabs[i] || null);
+    tabMeta.push(layerMeta);
+
+    datasets.push({
+      label: `Tab ${i + 1}`,
+      data: layerData,
+      backgroundColor: MEMORY_CHART_PALETTE[i % MEMORY_CHART_PALETTE.length]
+    });
+  }
+
+  memoryDomainChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      indexAxis: 'y',
+      scales: {
+        x: {
+          stacked: true,
+          beginAtZero: true,
+          ticks: { callback: (val) => formatMemory(val) }
+        },
+        y: { stacked: true }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          mode: 'index',
+          callbacks: {
+            title: (items) => {
+              const domainIdx = items[0].dataIndex;
+              const domain = labels[domainIdx];
+              const total = sorted[domainIdx][1].totalMB;
+              return `${domain} — ${formatMemory(total)}`;
+            },
+            label: (item) => {
+              const meta = tabMeta[item.datasetIndex]?.[item.dataIndex];
+              if (!meta || item.raw === 0) return null;
+              return `  ${truncate(meta.title, 35)} — ${formatMemory(meta.estimateMB)}`;
+            }
+          }
+        }
+      }
+    }
+  });
 }
 

@@ -47,13 +47,17 @@
             <div class="stat-value" id="overview-windows">0</div>
             <div class="stat-label">Windows</div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" title="Average health of your tabs (0–100). Based on how recently and frequently each tab is accessed.">
             <div class="stat-value" id="overview-health-score">0</div>
             <div class="stat-label">Health Score</div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card" title="Percentage of tabs with health above 50. Higher means more tabs are actively used.">
             <div class="stat-value" id="overview-efficiency">0%</div>
             <div class="stat-label">Tab Efficiency</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="overview-total-memory">...</div>
+            <div class="stat-label">Est. Memory</div>
           </div>
         </div>
 
@@ -81,6 +85,9 @@
         </div>
 
         <!-- Insights -->
+        <div class="section-header">
+          <h3>Insights</h3>
+        </div>
         <div class="insights-grid">
           <div class="insight-card" id="oldest-tab-insight">
             <div class="insight-label">Oldest Tab</div>
@@ -92,14 +99,27 @@
             <div class="insight-value" id="top-domain-count">-</div>
             <div class="insight-detail" id="top-domain-name">No domains yet</div>
           </div>
+          <div class="insight-card" id="heaviest-tab-insight">
+            <div class="insight-label">Heaviest Tab</div>
+            <div class="insight-value" id="heaviest-tab-memory">...</div>
+            <div class="insight-detail" id="heaviest-tab-title">Estimating...</div>
+          </div>
         </div>
 
+        <div class="section-header">
+          <h3>Analytics</h3>
+        </div>
         <div class="charts-grid">
           <div class="chart-card">
             <h3>Tabs by Domain (Top 10)</h3>
             <canvas id="domain-chart"></canvas>
           </div>
           <div class="chart-card">
+            <h3>Memory by Domain (Top 10)</h3>
+            <div class="chart-loading" id="memory-chart-loading">Estimating memory...</div>
+            <canvas id="memory-domain-chart"></canvas>
+          </div>
+          <div class="chart-card chart-card-full">
             <h3>Weekly Trend</h3>
             <canvas id="trend-chart"></canvas>
           </div>
@@ -127,6 +147,8 @@
             <option value="activations-desc">Most Active</option>
             <option value="activations-asc">Least Active</option>
             <option value="title">By Title</option>
+            <option value="memory-desc">Most Memory</option>
+            <option value="memory-asc">Least Memory</option>
           </select>
         </div>
 

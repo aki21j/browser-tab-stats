@@ -300,7 +300,7 @@ body {
 /* Insight cards */
 .insights-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-md);
   margin-bottom: var(--space-xl);
 }
@@ -341,6 +341,28 @@ body {
   text-overflow: ellipsis;
 }
 
+.insight-card-warning {
+  border-left: 3px solid #F59E0B;
+}
+
+.insight-card-danger {
+  border-left: 3px solid #DC2626;
+}
+
+.insight-hint {
+  font-size: 12px;
+  margin-top: var(--space-xs);
+  line-height: 1.4;
+}
+
+.insight-hint-warning {
+  color: #F59E0B;
+}
+
+.insight-hint-danger {
+  color: #DC2626;
+}
+
 /* Net change coloring */
 .stat-value.positive {
   color: #10B981;
@@ -370,6 +392,10 @@ body {
   border-color: var(--accent);
 }
 
+.chart-card-full {
+  grid-column: 1 / -1;
+}
+
 .chart-card h3 {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
@@ -379,6 +405,22 @@ body {
 
 .chart-card canvas {
   max-height: 280px;
+}
+
+/* Chart loading state */
+.chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 /* Empty state for charts */
@@ -618,6 +660,13 @@ body {
 .tab-row-domain {
   font-size: 12px;
   color: var(--text-secondary);
+}
+
+.tab-row-memory {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .tab-row-action {

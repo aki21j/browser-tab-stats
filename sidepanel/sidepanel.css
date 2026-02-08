@@ -113,7 +113,7 @@ header {
 /* Summary Section */
 .summary {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-sm);
   margin-bottom: var(--space-lg);
 }
@@ -161,6 +161,10 @@ header {
   color: var(--text-primary);
   line-height: 1;
   font-variant-numeric: tabular-nums;
+}
+
+.stat-value-sm {
+  font-size: 28px;
 }
 
 /* Recommendations Section */
@@ -219,6 +223,20 @@ header {
   font-size: var(--font-size-sm);
   color: var(--text-primary);
   line-height: 1.4;
+}
+
+.recommendation-hint {
+  display: block;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.priority-hint-medium {
+  color: #F59E0B;
+}
+
+.priority-hint-high {
+  color: #DC2626;
 }
 
 .recommendation-action {
@@ -352,6 +370,11 @@ header {
   display: flex;
   gap: 12px;
   line-height: 16px;
+  flex-wrap: wrap;
+}
+
+.tab-memory {
+  font-variant-numeric: tabular-nums;
 }
 
 .tab-actions {
